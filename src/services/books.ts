@@ -22,4 +22,16 @@ export class BooksService {
     getBooks(): Observable<Book[]>{
         return this.http.get(`${this.endRoot}/books`) as Observable<Book[]>;
     }
+
+    updateBook(book: Book): Observable<Book>{
+        return this.http.put(`${this.endRoot}/books/${book.id}`, book) as Observable<Book>;
+    }
+
+    addBook(book: Book): Observable<Book>{
+        return this.http.post(`${this.endRoot}/books`, book) as Observable<Book>;
+    }
+
+    deleteBook(id:number): Observable<Book>{
+        return this.http.delete(`${this.endRoot}/books/${id}`) as Observable<Book>;
+    }
 }

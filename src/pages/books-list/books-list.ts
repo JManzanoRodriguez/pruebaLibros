@@ -1,24 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { Book, BooksService } from '../../services/books';
+import { BookDetailsPage } from '../book-details/book-details';
 
-/**
- * Generated class for the BooksListPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-books-list',
   templateUrl: 'books-list.html',
 })
-export class BooksListPage {
+export class BooksListPage implements OnInit{
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public books: Book[];
+
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              private booksService: BooksService) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad BooksListPage');
+  ngOnInit(){
+    this.loadBooks();
   }
 
+  loadBooks(){
+    this.booksService.getBooks().subscribe((books: Book[]) => {
+      this.books = books;
+    })
+  }
+
+  itemSelected(book){
+    this.navCtrl.push(BookDetailsPage, {book});
+  }
 }
